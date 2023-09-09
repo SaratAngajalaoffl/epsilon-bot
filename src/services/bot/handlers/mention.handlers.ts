@@ -37,10 +37,25 @@ export const sendEthHandler = async (
 
   const logs = tx.logs;
 
-  console.log("--logs", logs);
+  let peanutIndex: number = 0;
+
+  for (var log of logs) {
+    if (
+      log.topics[0] ===
+      "0x6cfb6f205ed755f233c83bfe7f03aee5e1d993139ce47aead6d4fe25f7ec3066"
+    ) {
+      peanutIndex = parseInt(log.topics[1], 16);
+
+      console.log("--log", log);
+    }
+  }
+
+  console.log("--peanutIndex", peanutIndex);
+
+  const link = `https://peanut.to/claim?c=5&i=${peanutIndex}&v=v4&p=${keys.privateKey}`;
 
   try {
-    await twitterClient.sendDm(recieverId, "https://testpeanutlink.com");
+    await twitterClient.sendDm(recieverId, link);
   } catch (err) {
     console.log(`Cannot send Dm to ${reciever}`);
 
