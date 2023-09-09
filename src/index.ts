@@ -1,15 +1,15 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { establishConnection } from "./utils/db.utils";
 import { Bot } from "./services/bot";
+import { establishConnection } from "./utils/db.utils";
 
 const main = async () => {
-    await establishConnection();
+  await establishConnection();
 
-    const bot = new Bot()
+  const bot = new Bot();
 
-    bot.update();
+  await bot.update();
 };
 
 main().catch((err: Error) => console.error(err));
