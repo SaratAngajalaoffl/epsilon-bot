@@ -27,7 +27,9 @@ export const sendEthHandler = async (
 
   const contract = new SafeDelegatedContract();
 
-  const keys = generateKeysFromPassword("");
+  const password = (Math.random() + 1).toString(36).substring(7);
+
+  const keys = generateKeysFromPassword(password);
 
   const tx = await contract.createPeanutLink(
     sender.safeWalletAddress,
@@ -52,7 +54,7 @@ export const sendEthHandler = async (
 
   console.log("--peanutIndex", peanutIndex);
 
-  const link = `https://peanut.to/claim?c=5&i=${peanutIndex}&v=v4&p=${keys.privateKey}`;
+  const link = `https://peanut.to/claim?c=5&i=${peanutIndex}&v=v4&p=${password}`;
 
   try {
     await twitterClient.sendDm(recieverId, link);
