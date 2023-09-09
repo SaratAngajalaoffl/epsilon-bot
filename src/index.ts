@@ -1,19 +1,15 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-// import { establishConnection } from "./utils/db.utils";
-import { TwitterService } from "./services/twitter.service";
+import { establishConnection } from "./utils/db.utils";
+import { Bot } from "./services/bot";
 
 const main = async () => {
-    // await establishConnection();
+    await establishConnection();
 
-    const twitterService = new TwitterService();
+    const bot = new Bot()
 
-    const user = await twitterService.getUserData();
-
-    console.log(user);
-
-    const mentions = await twitterService.getUserMentions(user.data.id)
+    bot.update();
 };
 
 main().catch((err: Error) => console.error(err));

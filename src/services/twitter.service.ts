@@ -6,7 +6,7 @@ import {
     TOKEN_SECRET,
 } from "../config/env";
 
-export class TwitterService {
+class TwitterService {
     twitterClient: TwitterApi;
 
     constructor() {
@@ -24,6 +24,10 @@ export class TwitterService {
         return await this.twitterClient.v2.me();
     };
 
+    getUserDataFromUsername = async (username: string) => {
+        return await this.twitterClient.v2.userByUsername(username);
+    };
+
     getPendingDmEvents = async () => {
         return await this.twitterClient.v2.listDmEvents();
     };
@@ -35,10 +39,12 @@ export class TwitterService {
     };
 
     getUserMentions = async (userId: string) => {
-        const user = await this.twitterClient.v2.userMentionTimeline(userId);
-
-        return user;
+        return await this.twitterClient.v2.userMentionTimeline(userId, { "tweet.fields": "author_id"});
     };
 
-    replyToMention = async () => {};
+    replyToTweet = async (mentionId: string, message: string) => {
+        return await this.twitterClient.v2.reply(message, mentionId);
+    };
 }
+
+export const twitterClient = new TwitterService()
